@@ -1,0 +1,36 @@
+{
+  "name": "file-append",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"{src,libs,test}/**/*.ts\" --fix",
+    "build": "npx tsc",
+    "start": "ts-node src/index.ts",
+    "clean": "rimraf dist/*"
+  },
+  "keywords": [],
+  "author": "Thiroaki",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.4.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
