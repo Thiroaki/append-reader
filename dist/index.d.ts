@@ -1,11 +1,11 @@
-declare class FileAppend {
+declare class AppendReader {
     private static instance?;
     private targetDir;
     private chokiPath;
     private interval;
     private reloader?;
     private dirWatcher?;
-    private fileReaders;
+    private minions;
     private observers;
     private constructor();
     private reloadDir;
@@ -36,6 +36,6 @@ declare class FileAppend {
      * @param filename File name matching string (wildcard is "*")
      * @param interval Interval time of
      */
-    static getInstance(directory: string, filename?: string, interval?: number): FileAppend;
+    static getInstance(directory: string, filename?: string, interval?: number): AppendReader;
 }
-export default FileAppend;
+export default AppendReader;

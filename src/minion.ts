@@ -1,6 +1,6 @@
 import fs from "fs"
 
-export default class AppendReader {
+export default class Minion {
   public FilePath: string
   private beforeSize: number
   private callback: (arg: string[]) => any

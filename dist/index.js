@@ -6,11 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const chokidar_1 = __importDefault(require("chokidar"));
-const reader_1 = __importDefault(require("./reader"));
+const minion_1 = __importDefault(require("./minion"));
 const DefaultInterval = 1000;
-class FileAppend {
+class AppendReader {
     constructor(directory, filename, interval) {
-        this.fileReaders = {}; //: AppendReader[] = []
+        this.minions = {};
         this.observers = [];
         this.targetDir = directory;
         this.chokiPath = path_1.default.join(directory, filename);
@@ -28,14 +28,14 @@ class FileAppend {
      * 更新が検知された時
      */
     callReader(path, size) {
-        const reader = this.fileReaders[path];
+        const reader = this.minions[path];
         if (reader) {
             reader.getAppend(size);
         }
         else {
-            const newReader = new reader_1.default(path, (lines) => this.notify(lines));
-            this.fileReaders[path] = newReader;
-            this.fileReaders[path].getAppend(size);
+            const newReader = new minion_1.default(path, (lines) => this.notify(lines));
+            this.minions[path] = newReader;
+            this.minions[path].getAppend(size);
         }
     }
     startWatcher() {
@@ -83,7 +83,7 @@ class FileAppend {
      * すべての監視を解除
      */
     unregistAll() {
-        this.fileReaders = {};
+        this.minions = {};
         this.observers.length = 0;
         this.stopWatcher();
     }
@@ -98,10 +98,10 @@ class FileAppend {
         if (!interval)
             interval = DefaultInterval;
         if (!this.instance) {
-            this.instance = new FileAppend(directory, filename, interval);
+            this.instance = new AppendReader(directory, filename, interval);
         }
         return this.instance;
     }
 }
-exports.default = FileAppend;
+exports.default = AppendReader;
 //# sourceMappingURL=index.js.map

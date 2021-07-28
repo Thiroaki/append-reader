@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs"
 import chokidar from "chokidar"
-import AppendReader from "./reader"
+import Minion from "./minion"
 
 const DefaultInterval = 1000
 
@@ -9,15 +9,15 @@ interface observer {
   listener: (newLines: string[]) => any
 }
 
-class FileAppend {
-  private static instance?: FileAppend
+class AppendReader {
+  private static instance?: AppendReader
   private targetDir: string
   private chokiPath: string
   private interval: number
 
   private reloader?: NodeJS.Timeout
   private dirWatcher?: chokidar.FSWatcher
-  private fileReaders: { [key: string]: AppendReader } = {} //: AppendReader[] = []
+  private minions: { [key: string]: Minion } = {}
   private observers: observer[] = []
 
   private constructor(directory: string, filename: string, interval: number) {
@@ -39,13 +39,13 @@ class FileAppend {
    * 更新が検知された時
    */
   private callReader(path: string, size: number) {
-    const reader = this.fileReaders[path]
+    const reader = this.minions[path]
     if (reader) {
       reader.getAppend(size)
     } else {
-      const newReader = new AppendReader(path, (lines) => this.notify(lines))
-      this.fileReaders[path] = newReader
-      this.fileReaders[path].getAppend(size)
+      const newReader = new Minion(path, (lines) => this.notify(lines))
+      this.minions[path] = newReader
+      this.minions[path].getAppend(size)
     }
   }
 
@@ -92,7 +92,7 @@ class FileAppend {
    * すべての監視を解除
    */
   public unregistAll() {
-    this.fileReaders = {}
+    this.minions = {}
     this.observers.length = 0
     this.stopWatcher()
   }
@@ -110,10 +110,10 @@ class FileAppend {
     if (!interval) interval = DefaultInterval
 
     if (!this.instance) {
-      this.instance = new FileAppend(directory, filename, interval)
+      this.instance = new AppendReader(directory, filename, interval)
     }
     return this.instance
   }
 }
 
-export default FileAppend
+export default AppendReader

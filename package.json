@@ -1,6 +1,6 @@
 {
-  "name": "file-append",
-  "version": "1.0.0",
+  "name": "append-reader",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -21,7 +21,7 @@
     "chokidar": "^3.5.2"
   },
   "devDependencies": {
-    "@types/node": "^16.4.1",
+    "@types/node": "^16.4.4",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
     "dotenv": "^10.0.0",
