@@ -101,7 +101,7 @@ class AppendReader {
    * @param filename File name matching string (wildcard is "*")
    * @param interval Interval time of
    */
-  public static getInstance(
+  public static getWatcher(
     directory: string,
     filename?: string,
     interval?: number,
